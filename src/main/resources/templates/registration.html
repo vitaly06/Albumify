@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/registration.css">
+    <title>Регистрация</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/registration}" th:object="${person}">
+        <h1>Albumify</h1>
+        <h2>Создание личного аккаунта</h2>
+        
+        <div class="input_form">
+        <input type="email" name="email" placeholder="Электронная почта">
+        <input type="text" name="fio" placeholder="ФИО">
+        <input type="text" name="nickname" placeholder="Никнейм">
+        <input type="password" name="password" placeholder="Пароль">
+        <input type="password" name="repassword" placeholder="Повторите пароль">
+        </div>
+        <button type="submit" class="btn_login">Зарегистрироваться</button>
+
+        <a th:href="@{/login}" class="link">Уже есть аккаунт? Войти</a>
+    </form>
+</body>
+</html>

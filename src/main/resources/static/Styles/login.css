@@ -1,0 +1,115 @@
+@font-face {
+    font-family: Airfool;
+    src: url(../Fonts/Airfool.woff);
+}
+@font-face {
+    font-family: Geometria;
+    src: url(../Fonts/Geometria-Regular.woff);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form{
+    margin: 10px;
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, rgba(149, 239, 246, 0.66) 0%, rgba(102, 175, 242, 0.66) 100%);
+
+    border-radius: 30px;
+    width: 437px;
+    height: 457px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 20px;
+}
+
+form h1{
+    font-family: Airfool;
+    font-weight: 400;
+    font-size: 41px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 5%;
+    margin-top: 5%;
+
+    text-shadow:
+    2px 0 black,
+    0 -2px black,
+    -2px 0 black,
+    0 2px black;
+}
+
+form h2{
+    font-family: Geometria;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    color: #000;
+}
+
+.input_form{
+    height: 40%;
+    padding: 5%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.input_form input{
+    border-radius: 9px;
+    width: 314px;
+    height: 52px;
+
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background: #fff;
+    border: none;
+
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+    color: #000;
+    font-family: Geometria;
+}
+
+.btn_login{
+    cursor: pointer;
+
+    border-radius: 12px;
+    width: 222px;
+    height: 47px;
+
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background: linear-gradient(360deg, #95eff6 0%, #66aff2 100%);
+    border: none;
+
+    font-family: Airfool;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
+    color: #fff;
+
+    text-shadow:
+    2px 0 black,
+    0 -2px black,
+    -2px 0 black,
+    0 2px black;
+}
+.link{
+    margin-top: 5%;
+    font-family: Geometria;
+}
+
