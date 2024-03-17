@@ -12,15 +12,15 @@
         <h2>Создание личного аккаунта</h2>
         
         <div class="input_form">
-        <input type="email" th:field="*{name}" name="email" placeholder="Электронная почта">
-        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
-        <input type="text" th:field="*{fio}" name="fio" placeholder="ФИО">
+        <input type="email" th:field="*{person.setEmail}" name="email" id="email" placeholder="Электронная почта">
+        <!<div th:if="${#fields.hasErrors('email')}" th:errors="*{person.getEmail()}">Name error</div>
+        <input type="text" th:field="*{person.setFio}" name="fio" id="fio" placeholder="ФИО">
             <div th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}">Name error</div>
-        <input type="text" th:field="*{nickname}" name="nickname" placeholder="Никнейм">
+        <input type="text" th:field="*{nickname}" name="nickname" id="nickname" placeholder="Никнейм">
             <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Name error</div>
-        <input type="password" th:field="*{password}" name="password" placeholder="Пароль">
+        <input type="password" th:field="*{password}" name="password" id="password" placeholder="Пароль">
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
-        <input type="password" th:field="*{repassword}" name="repassword" placeholder="Повторите пароль">
+        <input type="password" th:field="*{repassword}" name="repassword" id="repassword" placeholder="Повторите пароль">
             <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}">Name error</div>
         </div>
         <button type="submit" class="btn_login">Зарегистрироваться</button>
