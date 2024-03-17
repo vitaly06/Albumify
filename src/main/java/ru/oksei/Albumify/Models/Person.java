@@ -21,7 +21,6 @@ public class Person {
     private String repassword;
 
     public Person() {
-
     }
 
     public Person(String email, String fio, String nickname, String password, String repassword) {
