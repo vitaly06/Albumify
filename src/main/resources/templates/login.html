@@ -13,7 +13,9 @@
         
         <div class="input_form">
         <input name="email" type="email" placeholder="Электронная почта">
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
         <input name="password" type="password" placeholder="Пароль">
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
         </div>
         <button type="submit" class="btn_login">Войти</button>
 

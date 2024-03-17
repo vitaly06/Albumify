@@ -1,6 +1,6 @@
 package ru.oksei.Albumify.Controllers;
 
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.oksei.Albumify.DAO.PersonDAO;
 import ru.oksei.Albumify.Models.Person;
 
+import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
@@ -30,14 +31,15 @@ public class MainController {
 
     // РЕГИСТРАЦИЯ
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(@ModelAttribute("person") Person person, Model model) {
+        model.addAttribute("person", person);
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String finalyRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+    public String finalyRegistration(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
-            return "/registration";
+            return "registration";
         }
         personDAO.registration(person);
         return "redirect:/login";
@@ -45,7 +47,8 @@ public class MainController {
 
     // ВХОД
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("person", new Person());
         return "login";
     }
 

@@ -12,9 +12,9 @@
         <h2>Создание личного аккаунта</h2>
         
         <div class="input_form">
-        <input type="email" th:field="*{person.setEmail}" name="email" id="email" placeholder="Электронная почта">
-        <!<div th:if="${#fields.hasErrors('email')}" th:errors="*{person.getEmail()}">Name error</div>
-        <input type="text" th:field="*{person.setFio}" name="fio" id="fio" placeholder="ФИО">
+        <input type="email" th:field="*{email}" name="email" id="email" placeholder="Электронная почта">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
+        <input type="text" th:field="*{fio}" name="fio" id="fio" placeholder="ФИО">
             <div th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}">Name error</div>
         <input type="text" th:field="*{nickname}" name="nickname" id="nickname" placeholder="Никнейм">
             <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Name error</div>
