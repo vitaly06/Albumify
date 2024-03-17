@@ -1,8 +1,10 @@
 package ru.oksei.Albumify.Controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +35,10 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String finalyRegistration(@ModelAttribute("person") Person person) {
+    public String finalyRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/registration";
+        }
         personDAO.registration(person);
         return "redirect:/login";
     }
@@ -45,14 +50,17 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String finally_login(@ModelAttribute("person") Person person) {
+    public String finally_login(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/login";
+        }
         Person check_user = personDAO.login(person);
         if (Objects.equals(check_user, null)) {
             System.out.println("не вошёл!");
         } else {
             data = new String[]{Integer.toString(check_user.getId()), check_user.getEmail(), check_user.getFio(),
                     check_user.getNickname(), check_user.getPassword()};
-            for(String x: data){
+            for (String x : data) {
                 System.out.println(x);
             }
             isAuth = true;
@@ -66,8 +74,9 @@ public class MainController {
         model.addAttribute("nickname", data[3]);
         return "profile";
     }
+
     @GetMapping("/{nickname}")
-    public String ourProfile(@PathVariable("nickname") String nickname, Model model){
+    public String ourProfile(@PathVariable("nickname") String nickname, Model model) {
         model.addAttribute("person", personDAO.ourProfile(nickname));
         return "our_profile";
     }

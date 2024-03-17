@@ -1,9 +1,24 @@
 package ru.oksei.Albumify.Models;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class Person {
     private int id;
-    private String email, fio, nickname, password, repassword;
+    @NotNull(message = "Почта не может быть пустой")
+    @Email(message = "введите валидный email")
+    private String email;
+    @NotNull(message = "ФИО не может быть пустым")
+    private String fio;
+    @NotNull(message = "Никнейм не может быть пустым")
+    @Size(min = 2, max = 15, message = "Никнейм должен быть от 2 до 15 символов")
+    private String nickname;
+    @NotNull(message = "Пароль не может быть пустым")
+    private String password;
+    @NotNull(message = "Повторите пароль")
+    private String repassword;
 
     public Person() {
 
