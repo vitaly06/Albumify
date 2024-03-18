@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.oksei.Albumify.DAO.AlbumDAO;
 import ru.oksei.Albumify.DAO.PersonDAO;
+import ru.oksei.Albumify.Models.Album;
 import ru.oksei.Albumify.Models.Person;
 
 import javax.validation.Valid;
@@ -19,6 +21,8 @@ import java.util.Objects;
 public class MainController {
     @Autowired
     PersonDAO personDAO;
+    @Autowired
+    AlbumDAO albumDAO;
     String[] data;
     boolean isAuth = false;
     public Person person; // Данные пользователя
@@ -96,5 +100,13 @@ public class MainController {
     @GetMapping("/album")
     public String album(){
         return "album";
+    }
+
+    // Создание альбома
+    @PostMapping("/addAlbum")
+    public String addAlbum(@ModelAttribute("album")Album album){
+        album.setUserId(Integer.parseInt(data[0]));
+        albumDAO.addAlbum(album);
+        return "redirect:/profile";
     }
 }
