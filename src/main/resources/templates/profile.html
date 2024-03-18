@@ -32,8 +32,23 @@
             <h1 th:text="${nickname}">Никнейм</h1>
         </div>
         <div class="btn_container">
-            <button class="btn_profile">Поделиться</button>
-            <button class="btn_profile">Изменить профиль</button>            
+            <!--  -->
+            <a href="#popup2"><button class="btn_profile">Добавить альбом</button></a>
+
+            <div id="popup2" class="overlay light">
+                <div class="popup">
+                    <a class="cancel" href="#">✕</a> 
+                    <div class="content">
+                        <div>Создание альбома</div>
+                        <input type="text" placeholder="Название">
+                        <input type="text" placeholder="Описание">
+                        <button class="Btn_Popup">Вoйти</button>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+
+            <a href="./"><button class="btn_profile">Изменить профиль</button></a>            
         </div>
 
         <div class="text_container">

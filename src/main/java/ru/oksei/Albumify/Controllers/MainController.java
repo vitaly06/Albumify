@@ -29,7 +29,7 @@ public class MainController {
         return "index";
     }
 
-    // РЕГИСТРАЦИЯ
+    // Регистрация
     @GetMapping("/registration")
     public String registration(@ModelAttribute("person") Person person, Model model) {
         model.addAttribute("person", person);
@@ -45,7 +45,7 @@ public class MainController {
         return "redirect:/login";
     }
 
-    // ВХОД
+    // Вход
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("person", new Person());
@@ -72,15 +72,29 @@ public class MainController {
         return "redirect:/";
     }
 
+    // Профиль
     @GetMapping("/profile")
     public String profile(Model model) {
         model.addAttribute("nickname", data[3]);
         return "profile";
     }
 
+    // Профили других людей
     @GetMapping("/{nickname}")
     public String ourProfile(@PathVariable("nickname") String nickname, Model model) {
         model.addAttribute("person", personDAO.ourProfile(nickname));
         return "our_profile";
+    }
+
+    // Добавление контента
+    @GetMapping("/addContent")
+    public String addContent(){
+        return "add_content";
+    }
+
+    // Просмотр альбома
+    @GetMapping("/album")
+    public String album(){
+        return "album";
     }
 }
