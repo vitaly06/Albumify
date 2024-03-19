@@ -14,7 +14,7 @@
     <div class="nav">
         <div class="nav_btns">
             <button class="nav_btn1"><h1>Главная</h1></button>
-            <a th:href="@{/addContent}"><button class="nav_btn2"><h1>Создать</h1></button></a>
+            <a th:href="@{/addContent}"><button class="nav_btn2"><h1>Поделиться</h1></button></a>
         </div>
         <div class="nav_search">
             <input type="search" placeholder="Поиск">
@@ -36,17 +36,36 @@
         <a href="#popup2"><button class="btn_profile">Добавить альбом</button></a>
 
         <div id="popup2" class="overlay light">
+
+            <form class="type" th:method="POST" th:action="@{/addAlbum}" th:object="${album}">
             <div class="popup">
                 <a class="cancel" href="#">✕</a>
                 <div class="content">
+
                     <div>Создание альбома</div>
-                    <form th:method="POST" th:action="@{/addAlbum}" th:object="${album}">
-                        <input name="name" type="text" placeholder="Название">
-                        <input name="description" type="text" placeholder="Описание">
-                        <button type="submit" class="Btn_Popup">Добавить</button>
-                    </form>
+                    <input type="text" placeholder="Название">
+                    <input type="text" placeholder="Описание">
+
+                    <div checkboxes>
+                        <div class="checkboxes">
+                            <label>Публичный</label>
+                            <input type="checkbox">
+                        </div>
+                        <div class="checkboxes">
+                            <label>Приватный</label>
+                            <input type="checkbox">
+                        </div>
+                        <div class="checkboxes">
+                            <label>Закрытый</label>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+
+                    <button class="Btn_Popup">Создать</button>
+
                 </div>
             </div>
+            </form>
         </div>
         <!--  -->
 

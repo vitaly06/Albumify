@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.oksei.Albumify.DAO.AlbumDAO;
 import ru.oksei.Albumify.DAO.PersonDAO;
+import ru.oksei.Albumify.DAO.PhotoDAO;
 import ru.oksei.Albumify.Models.Album;
 import ru.oksei.Albumify.Models.Person;
+import ru.oksei.Albumify.Models.Photo;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +27,8 @@ public class MainController {
     PersonDAO personDAO;
     @Autowired
     AlbumDAO albumDAO;
+    @Autowired
+    PhotoDAO photoDAO;
     String[] data;
     boolean isAuth = false;
     public Person person; // Данные пользователя
@@ -97,6 +102,13 @@ public class MainController {
         List<Album> albums = albumDAO.getAllUserAlbums(Integer.parseInt(data[0]));
         model.addAttribute("albums", albums);
         return "add_content";
+    }
+
+    @PostMapping("/addContent")
+    public String loadContent(@ModelAttribute("photo")Photo photo) throws IOException {
+        photo.setUserId(Integer.parseInt(data[0]));
+        photoDAO.savePhoto(photo);
+        return "redirect:/";
     }
 
     // Просмотр альбома

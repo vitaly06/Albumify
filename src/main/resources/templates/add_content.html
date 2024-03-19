@@ -27,25 +27,26 @@
     </header>
 
     <main>
+        <form th:method="POST" th:action="@{/addContent}" th:object="${photo}">
         <div class="container">
             <figure class="image-container">
                 <img id="chosen-image">
                 <figcaption id="file-name"></figcaption>
             </figure>
     
-            <input type="file" id="upload-button" >
+            <input name="file" type="file" id="upload-button" >
             <label for="upload-button">
               Выберите фото
             </label>
         </div>
-        <form th:method="POST" th:action="@{/addContent}" th:object="${photo}">
+
         <div class="info_container">
             <input name="name" class="info" type="text" placeholder="Добавить название">
             <input name="description" class="info" type="text" placeholder="Добавить описание">
             <select class="albums">
                 <option th:each="album : ${albums}"><span th:text="${album.getName()}"></span></option>
               </select>
-            <input class="info" type="text" placeholder="Добавить тег">
+            <input name="tags" class="info" type="text" placeholder="Добавить тег">
             <button class="btn_create">Добавить</button>
         </div>
         </form>
