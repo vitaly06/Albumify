@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.oksei.Albumify.Models.Album;
 
+import java.util.List;
+
 @Component
 public class AlbumDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -21,5 +23,10 @@ public class AlbumDAO {
     public int addAlbum(Album album){
         return jdbcTemplate.update("INSERT INTO ALBUMS(name, description, userId) VALUES(?, ?, ?)",
                 album.getName(), album.getDescription(), album.getUserId());
+    }
+
+    public List<Album> getAllUserAlbums(int userId){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ?",
+                new Object[]{userId}, new AlbumMapper());
     }
 }

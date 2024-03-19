@@ -38,18 +38,17 @@
               Выберите фото
             </label>
         </div>
+        <form th:method="POST" th:action="@{/addContent}" th:object="${photo}">
         <div class="info_container">
-            <form th:method="POST" th:action="@{/addContent}" th:object="${photo}">
             <input name="name" class="info" type="text" placeholder="Добавить название">
             <input name="description" class="info" type="text" placeholder="Добавить описание">
             <select class="albums">
-                <option>Альбом 1</option>
-                <option>Альбом 2</option> 
+                <option th:each="album : ${albums}"><span th:text="${album.getName()}"></span></option>
               </select>
             <input class="info" type="text" placeholder="Добавить тег">
             <button class="btn_create">Добавить</button>
-            </form>
         </div>
+        </form>
         
     </main>
 

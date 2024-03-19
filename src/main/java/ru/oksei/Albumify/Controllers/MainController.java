@@ -15,6 +15,7 @@ import ru.oksei.Albumify.Models.Album;
 import ru.oksei.Albumify.Models.Person;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -92,7 +93,9 @@ public class MainController {
 
     // Добавление контента
     @GetMapping("/addContent")
-    public String addContent(){
+    public String addContent(Model model){
+        List<Album> albums = albumDAO.getAllUserAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("albums", albums);
         return "add_content";
     }
 
