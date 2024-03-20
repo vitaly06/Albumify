@@ -27,7 +27,7 @@
     </header>
 
     <main>
-        <form th:method="POST" th:action="@{/addContent}" th:object="${photo}">
+        <form th:method="POST" enctype="multipart/form-data" th:action="@{/addContent}" th:object="${photo}">
         <div class="container">
             <figure class="image-container">
                 <img id="chosen-image">

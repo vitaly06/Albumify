@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.oksei.Albumify.DAO.AlbumDAO;
 import ru.oksei.Albumify.DAO.PersonDAO;
 import ru.oksei.Albumify.DAO.PhotoDAO;
@@ -105,8 +103,9 @@ public class MainController {
     }
 
     @PostMapping("/addContent")
-    public String loadContent(@ModelAttribute("photo")Photo photo) throws IOException {
+    public String loadContent(@RequestParam("file") MultipartFile file, @ModelAttribute("photo")Photo photo) throws IOException {
         photo.setUserId(Integer.parseInt(data[0]));
+        System.out.println(file.getOriginalFilename());
         photoDAO.savePhoto(photo);
         return "redirect:/";
     }
