@@ -35,27 +35,11 @@ public class PhotoDAO {
         return jdbcTemplate.update("INSERT INTO PHOTO(file, name, description, album, tags, userId) VALUES(?, ?, ?, ?, ?, ?)",
                 photo.getFile().getOriginalFilename(), photo.getName(),
                 photo.getDescription(), photo.getAlbum(), photo.getTags(), photo.getUserId());
-        /*byte[] image = extractBytes(photo.getFile().getOriginalFilename());
-        for (byte x : image){
-            System.out.println(x);
-        }*/
     }
 
     public List<Photo> getPhotos(int userId, String albumName) throws IOException{
         assert jdbcTemplate != null;
-        return jdbcTemplate.query("SELECT * FROM PHOTO WHERE userId = ? AND album = ?",
+        return jdbcTemplate.query("SELECT * FROM photo WHERE userId = ? AND album = ?",
                 new Object[]{userId, albumName}, new PhotoMapper());
     }
-
-    /*public byte[] extractBytes (String ImageName) throws IOException {
-        // open image
-        File imgPath = new File(ImageName);
-        BufferedImage bufferedImage = ImageIO.read(imgPath);
-
-        // get DataBufferBytes from Raster
-        WritableRaster raster = bufferedImage .getRaster();
-        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
-
-        return ( data.getData() );
-    }*/
 }

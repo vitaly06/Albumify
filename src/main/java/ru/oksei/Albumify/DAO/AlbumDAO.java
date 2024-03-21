@@ -29,4 +29,10 @@ public class AlbumDAO {
         return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ?",
                 new Object[]{userId}, new AlbumMapper());
     }
+
+    public Album getAlbum(String albumName){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE name = ?",
+                new Object[]{albumName}, new AlbumMapper())
+                .stream().findAny().orElse(null);
+    }
 }

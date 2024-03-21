@@ -117,19 +117,13 @@ public class MainController {
         photo.setUserId(Integer.parseInt(data[0]));
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(photo.getFile().getOriginalFilename()));
         try {
-            Path path = Paths.get(fileName);
+            Path path = Paths.get("./src/main/resources/static/data/" + fileName);
             Files.copy(photo.getFile().getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
         photoDAO.savePhoto(photo);
         return "redirect:/";
-    }
-
-    // Просмотр альбома
-    @GetMapping("/album")
-    public String album(){
-        return "album";
     }
 
     // Создание альбома
@@ -140,13 +134,14 @@ public class MainController {
         return "redirect:/profile";
     }
 
-    // Просмотр альбома !!!!!!!!!!!!!!!!!!!
-    @GetMapping("/{userId}-{albumname}")
-    public String viewAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumname) throws IOException {
+    // Просмотр альбома
+    @GetMapping("/album/{userId}-{albumname}")
+    public String viewAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumname,
+                            Model model) throws IOException {
         List<Photo> photos = photoDAO.getPhotos(userId, albumname);
-        for (Photo photo : photos){
-            System.out.println(photo.getFile().getOriginalFilename());
-        }
+        Album album = albumDAO.getAlbum(albumname);
+        model.addAttribute("album", album);
+        model.addAttribute("photos", photos);
         return "album";
     }
 }

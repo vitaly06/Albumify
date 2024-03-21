@@ -21,13 +21,14 @@ public class PhotoMapper implements RowMapper<Photo> {
         Photo photo = new Photo();
         String fileName = resultSet.getString("file");
         try {
-            File file = new File(fileName);
+            File file = new File("./src/main/resources/static/data/" + fileName);
             if (file.exists()) {
                 System.out.println("File Exist => " + file.getName() + " :: " + file.getAbsolutePath());
             }
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain",
                     IOUtils.toByteArray(input));
+            photo.setFile(multipartFile);
             System.out.println("multipartFile => " + multipartFile.isEmpty() + " :: "
                     + multipartFile.getOriginalFilename() + " :: " + multipartFile.getName() + " :: "
                     + multipartFile.getSize() + " :: " + multipartFile.getBytes());

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Styles/album.css">
+    <link rel="stylesheet" href="/Styles/album.css">
     <title>Альбом</title>
 </head>
 <body>
@@ -21,21 +21,21 @@
             </div>
         </div>
         <div class="user_section">
-            <img src="Images/download.svg" alt="">
-            <img src="Images/user.svg" alt="">
+            <img src="/Images/download.svg" alt="">
+            <img src="/Images/user.svg" alt="">
         </div>
     </header>
 
     <main>
         <div class="text_container">
-            <div class="text">Название альбома</div>
-            <div class="subtext">описание</div>
+            <div class="text" th:text="${album.getName()}">Название альбома</div>
+            <div class="subtext" th:text="${album.getDescription()}">описание</div>
         </div>
 
         <div class="settings_container">
             <div class="set">
-                <img src="Images/download2.svg" alt="скачать весь альбом">
-                <img src="Images/settings.svg" alt="">
+                <img src="/Images/download2.svg" alt="скачать весь альбом">
+                <img src="/Images/settings.svg" alt="">
             </div>
             <div class="add_photo">
                 <div class="text2">Добавить фото</div>
@@ -46,103 +46,12 @@
 
 
         <div class="gallery">
-            <div class="gallery-item">
+            <div class="gallery-item" th:each="photo : ${photos}">
               <figure>
-                <img src="https://images.dog.ceo/breeds/hound-english/n02089973_3147.jpg" alt="dog" />
-                <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
+                <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
+                <figcaption th:text="${photo.getName()}">name</figcaption>
               </figure>
-              <p>OMG, seriously how cute are these dogs?</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/poodle-toy/n02113624_1582.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/pug/n02110958_13794.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/terrier-australian/n02096294_5504.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/kelpie/n02105412_1222.jpg" alt="dog" />
-                <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
-              </figure>
-              <p>OMG, seriously how cute are these dogs?</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/doberman/n02107142_1193.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_5292.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_5292.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/borzoi/n02090622_266.jpg" alt="dog" />
-                <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
-              </figure>
-              <p>OMG, seriously how cute are these dogs?</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_11806.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/poodle-miniature/n02113712_3293.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/pembroke/n02113023_4881.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/poodle-standard/n02113799_4946.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
-            </div>
-            <div class="gallery-item">
-              <figure>
-                <img src="https://images.dog.ceo/breeds/schnauzer-giant/n02097130_4050.jpg" alt="dog" />
-                <figcaption>Caption of the pic</figcaption>
-              </figure>
-              <p>More text about the image</p>
+              <p th:text="${photo.getDescription()}">description</p>
             </div>
           </div>
     </main>
