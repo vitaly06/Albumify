@@ -4,6 +4,7 @@ package ru.oksei.Albumify.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,11 +17,16 @@ import ru.oksei.Albumify.Models.Photo;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 
 @Controller
 public class MainController {
+    //private final String UPLOAD_DIR = "";
     @Autowired
     PersonDAO personDAO;
     @Autowired
@@ -83,6 +89,8 @@ public class MainController {
     // Профиль
     @GetMapping("/profile")
     public String profile(Model model) {
+        List<Album> albums = albumDAO.getAllUserAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("albums", albums);
         model.addAttribute("nickname", data[3]);
         return "profile";
     }
@@ -102,10 +110,18 @@ public class MainController {
         return "add_content";
     }
 
+
+    // Загрузка фото в БД
     @PostMapping("/addContent")
-    public String loadContent(@RequestParam("file") MultipartFile file, @ModelAttribute("photo")Photo photo) throws IOException {
+    public String loadContent(@ModelAttribute("photo")Photo photo) throws IOException {
         photo.setUserId(Integer.parseInt(data[0]));
-        System.out.println(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(photo.getFile().getOriginalFilename()));
+        try {
+            Path path = Paths.get(fileName);
+            Files.copy(photo.getFile().getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         photoDAO.savePhoto(photo);
         return "redirect:/";
     }

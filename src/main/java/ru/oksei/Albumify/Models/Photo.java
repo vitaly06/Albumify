@@ -1,8 +1,10 @@
 package ru.oksei.Albumify.Models;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Photo {
     private int id;
-    private String file;
+    private MultipartFile file;
     private String name;
     private String description;
     private String album;
@@ -51,11 +53,11 @@ public class Photo {
         this.tags = tags;
     }
 
-    public String getFile() {
+    public MultipartFile getFile() {
         return file;
     }
 
-    public void setFile(String file) {
+    public void setFile(MultipartFile file) {
         this.file = file;
     }
 

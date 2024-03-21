@@ -3,14 +3,17 @@ package ru.oksei.Albumify.DAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.oksei.Albumify.Models.Album;
 import ru.oksei.Albumify.Models.Photo;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 public class PhotoDAO {
@@ -26,14 +29,19 @@ public class PhotoDAO {
         this.jdbcTemplate = null;
     }
 
-    public void savePhoto(Photo photo) throws IOException {
+    public int savePhoto(Photo photo) throws IOException {
         System.out.println(photo.getFile());
-        byte[] image = extractBytes(photo.getFile());
+        return jdbcTemplate.update("INSERT INTO PHOTO(file, name, description, album, tags, userId) VALUES(?, ?, ?, ?, ?, ?)",
+                photo.getFile().getOriginalFilename(), photo.getName(),
+                photo.getDescription(), photo.getAlbum(), photo.getTags(), photo.getUserId());
+        /*byte[] image = extractBytes(photo.getFile().getOriginalFilename());
         for (byte x : image){
             System.out.println(x);
-        }
+        }*/
+
     }
-    public byte[] extractBytes (String ImageName) throws IOException {
+
+    /*public byte[] extractBytes (String ImageName) throws IOException {
         // open image
         File imgPath = new File(ImageName);
         BufferedImage bufferedImage = ImageIO.read(imgPath);
@@ -43,5 +51,5 @@ public class PhotoDAO {
         DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
 
         return ( data.getData() );
-    }
+    }*/
 }

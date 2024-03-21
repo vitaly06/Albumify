@@ -43,8 +43,8 @@
         <div class="info_container">
             <input name="name" class="info" type="text" placeholder="Добавить название">
             <input name="description" class="info" type="text" placeholder="Добавить описание">
-            <select class="albums">
-                <option th:each="album : ${albums}"><span th:text="${album.getName()}"></span></option>
+            <select class="albums" name="album">
+                <option th:each="album : ${albums}"><span th:text="${album.getName()}" value="${album.getName()}"></span></option>
               </select>
             <input name="tags" class="info" type="text" placeholder="Добавить тег">
             <button class="btn_create">Добавить</button>
