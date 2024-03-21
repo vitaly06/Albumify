@@ -13,6 +13,7 @@ import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -38,7 +39,12 @@ public class PhotoDAO {
         for (byte x : image){
             System.out.println(x);
         }*/
+    }
 
+    public List<Photo> getPhotos(int userId, String albumName) throws IOException{
+        assert jdbcTemplate != null;
+        return jdbcTemplate.query("SELECT * FROM PHOTO WHERE userId = ? AND album = ?",
+                new Object[]{userId, albumName}, new PhotoMapper());
     }
 
     /*public byte[] extractBytes (String ImageName) throws IOException {

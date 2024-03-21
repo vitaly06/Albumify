@@ -139,4 +139,14 @@ public class MainController {
         albumDAO.addAlbum(album);
         return "redirect:/profile";
     }
+
+    // Просмотр альбома !!!!!!!!!!!!!!!!!!!
+    @GetMapping("/{userId}-{albumname}")
+    public String viewAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumname) throws IOException {
+        List<Photo> photos = photoDAO.getPhotos(userId, albumname);
+        for (Photo photo : photos){
+            System.out.println(photo.getFile().getOriginalFilename());
+        }
+        return "album";
+    }
 }

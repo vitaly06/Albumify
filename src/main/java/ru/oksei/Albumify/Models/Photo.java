@@ -61,6 +61,7 @@ public class Photo {
         this.file = file;
     }
 
+
     public int getUserId() {
         return userId;
     }
