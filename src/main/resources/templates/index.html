@@ -33,13 +33,15 @@
 
     <main>
         <div class="gallery">
-            <div class="gallery-item" th:each="photo : ${photos}">
+            <a th:each="photo : ${photos}" th:href="@{/content/{userId}-{photoName}(userId=${photo.getUserId()}, photoName=${photo.getName()})}">
+            <div class="gallery-item">
               <figure>
                 <img th:src="@{data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
                   <figcaption th:text="${photo.getName()}">name</figcaption>
               </figure>
                 <p th:text="${photo.getDescription()}">description</p>
             </div>
+            </a>
           </div>
     </main>
 </body>

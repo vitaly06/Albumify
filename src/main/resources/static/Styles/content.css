@@ -1,0 +1,52 @@
+@font-face {
+    font-family: Geometria;
+    src: url(../Fonts/Geometria-Regular.woff);
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.photo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.photo img{
+    width: 90%;
+    border-radius: 20px;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    max-width: 50%;
+    font-family: Geometria;
+}
+h3{
+    font-size: 25px;
+}
+
+@media (max-width: 800px) {
+    main{
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    .info{
+        max-width: 90%;
+        align-items: center;
+    }
+}

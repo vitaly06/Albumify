@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Styles/content.css">
+    <title>content</title>
+</head>
+<body>
+<main>
+    <div class="photo">
+        <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" alt="">
+    </div>
+    <div class="info">
+        <h1 th:text="${photo.getName()}">Нaзвание</h1>
+        <a th:href="@{/{nickname}(nickname=${author})}"><h2 th:text="${author}">Автор</h2></a>
+        <h3 th:text="${photo.getDescription()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corrupti doloribus aliquid sed eum. Blanditiis.</h3>
+        <h3 th:text="${photo.getTags()}"> Теги Теги Теги Теги Теги Теги Теги</h3>
+    </div>
+</main>
+</body>
+</html>

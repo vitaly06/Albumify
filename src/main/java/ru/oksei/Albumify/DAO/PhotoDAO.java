@@ -43,6 +43,13 @@ public class PhotoDAO {
                 new Object[]{userId, albumName}, new PhotoMapper());
     }
 
+    // Страница с фотографией
+    public Photo getPhotoForSite(int userId, String photoName){
+        return jdbcTemplate.query("SELECT * FROM photo WHERE userId = ? AND name = ?",
+                new Object[]{userId, photoName}, new PhotoMapper())
+                .stream().findAny().orElse(null);
+    }
+
     // Фотографии в ленте
     public List<Photo> getIndexPhoto() {
         return jdbcTemplate.query("SELECT photo.id, photo.file, photo.name, photo.description, photo.album, " +

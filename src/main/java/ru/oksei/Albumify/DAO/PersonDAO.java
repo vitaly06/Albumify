@@ -66,4 +66,10 @@ public class PersonDAO {
         }
         return true;
     }
+
+    public Person photoAuthor(int userId){
+        return jdbcTemplate.query("SELECT * FROM users WHERE id = ?",
+                new Object[]{userId}, new PersonMapper())
+                .stream().findAny().orElse(null);
+    }
 }

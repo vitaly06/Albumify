@@ -82,7 +82,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String finally_login(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+    public String finally_login(@ModelAttribute("person") Person person, BindingResult bindingResult) {
         Person check_user = personDAO.login(person);
         if (Objects.equals(check_user, null)) {
             ObjectError error = new ObjectError("globalError", "Неверная почта или пароль");
@@ -161,5 +161,16 @@ public class MainController {
         model.addAttribute("photos", photos);
         model.addAttribute("auth", isAuth);
         return "album";
+    }
+
+    // Просмотр изображения
+    @GetMapping("/content/{userId}-{photoName}")
+    public String viewContent(@PathVariable("userId") int userId, @PathVariable("photoName") String photoName,
+                              Model model){
+        Photo photo = photoDAO.getPhotoForSite(userId, photoName);
+        Person author = personDAO.photoAuthor(userId);
+        model.addAttribute("author", author.getNickname());
+        model.addAttribute("photo", photo);
+        return "content";
     }
 }
