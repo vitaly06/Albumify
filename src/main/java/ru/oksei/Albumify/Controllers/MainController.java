@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.oksei.Albumify.DAO.AlbumDAO;
@@ -39,6 +40,8 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
+        List<Photo> photos = photoDAO.getIndexPhoto();
+        model.addAttribute("photos", photos);
         model.addAttribute("auth", isAuth);
         return "index";
     }
@@ -52,6 +55,18 @@ public class MainController {
 
     @PostMapping("/registration")
     public String finalyRegistration(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
+        if (!Objects.equals(person.getPassword(), person.getRepassword())){
+            ObjectError error = new ObjectError("globalError", "Пароли не совпадают");
+            bindingResult.addError(error);
+        }
+        if (!personDAO.checkEmail(person.getEmail())){
+            ObjectError error = new ObjectError("globalError", "Аккаунт с таким email уже существует");
+            bindingResult.addError(error);
+        }
+        if (!personDAO.checkNickname(person.getNickname())){
+            ObjectError error = new ObjectError("globalError", "Аккаунт с таким nickname уже существует");
+            bindingResult.addError(error);
+        }
         if (bindingResult.hasErrors()){
             return "registration";
         }
@@ -68,21 +83,20 @@ public class MainController {
 
     @PostMapping("/login")
     public String finally_login(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        Person check_user = personDAO.login(person);
+        if (Objects.equals(check_user, null)) {
+            ObjectError error = new ObjectError("globalError", "Неверная почта или пароль");
+            bindingResult.addError(error);
+        }
         if (bindingResult.hasErrors()){
             return "/login";
         }
-        Person check_user = personDAO.login(person);
-        if (Objects.equals(check_user, null)) {
-            System.out.println("не вошёл!");
-        } else {
-            data = new String[]{Integer.toString(check_user.getId()), check_user.getEmail(), check_user.getFio(),
-                    check_user.getNickname(), check_user.getPassword()};
-            for (String x : data) {
-                System.out.println(x);
-            }
-            isAuth = true;
-            return "redirect:/";
+        data = new String[]{Integer.toString(check_user.getId()), check_user.getEmail(), check_user.getFio(),
+                check_user.getNickname(), check_user.getPassword()};
+        for (String x : data) {
+            System.out.println(x);
         }
+        isAuth = true;
         return "redirect:/";
     }
 
@@ -92,6 +106,7 @@ public class MainController {
         List<Album> albums = albumDAO.getAllUserAlbums(Integer.parseInt(data[0]));
         model.addAttribute("albums", albums);
         model.addAttribute("nickname", data[3]);
+        model.addAttribute("auth", isAuth);
         return "profile";
     }
 
@@ -99,6 +114,7 @@ public class MainController {
     @GetMapping("/{nickname}")
     public String ourProfile(@PathVariable("nickname") String nickname, Model model) {
         model.addAttribute("person", personDAO.ourProfile(nickname));
+        model.addAttribute("auth", isAuth);
         return "our_profile";
     }
 
@@ -106,6 +122,7 @@ public class MainController {
     @GetMapping("/addContent")
     public String addContent(Model model){
         List<Album> albums = albumDAO.getAllUserAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("auth", isAuth);
         model.addAttribute("albums", albums);
         return "add_content";
     }
@@ -123,7 +140,7 @@ public class MainController {
             e.printStackTrace();
         }
         photoDAO.savePhoto(photo);
-        return "redirect:/";
+        return "redirect:/addContent";
     }
 
     // Создание альбома
@@ -142,6 +159,7 @@ public class MainController {
         Album album = albumDAO.getAlbum(albumname);
         model.addAttribute("album", album);
         model.addAttribute("photos", photos);
+        model.addAttribute("auth", isAuth);
         return "album";
     }
 }

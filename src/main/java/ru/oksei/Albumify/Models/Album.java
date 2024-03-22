@@ -4,6 +4,7 @@ public class Album {
     private int id;
     private String name;
     private String description;
+    private String type;
     private int userId;
 
     public Album(){}
@@ -30,6 +31,14 @@ public class Album {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getUserId() {

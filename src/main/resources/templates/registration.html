@@ -13,15 +13,19 @@
         
         <div class="input_form">
         <input type="email" th:field="*{email}" name="email" id="email" placeholder="Электронная почта">
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;" >Name error</div>
         <input type="text" th:field="*{fio}" name="fio" id="fio" placeholder="ФИО">
-            <div th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}">Name error</div>
+            <div th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}" style="color: red;">Name error</div>
         <input type="text" th:field="*{nickname}" name="nickname" id="nickname" placeholder="Никнейм">
-            <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Name error</div>
+            <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" style="color: red;">Name error</div>
         <input type="password" th:field="*{password}" name="password" id="password" placeholder="Пароль">
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;">Name error</div>
         <input type="password" th:field="*{repassword}" name="repassword" id="repassword" placeholder="Повторите пароль">
-            <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}">Name error</div>
+            <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}" style="color: red;">Name error</div>
+            <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}" style="color: red;">Name error</div>
+            <div th:if="${#fields.hasErrors('global')}">
+                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" style="color: red;"/>
+            </div>
         </div>
         <button type="submit" class="btn_login">Зарегистрироваться</button>
 

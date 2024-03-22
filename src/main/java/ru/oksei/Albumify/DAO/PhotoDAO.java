@@ -37,9 +37,16 @@ public class PhotoDAO {
                 photo.getDescription(), photo.getAlbum(), photo.getTags(), photo.getUserId());
     }
 
-    public List<Photo> getPhotos(int userId, String albumName) throws IOException{
+    public List<Photo> getPhotos(int userId, String albumName) throws IOException {
         assert jdbcTemplate != null;
         return jdbcTemplate.query("SELECT * FROM photo WHERE userId = ? AND album = ?",
                 new Object[]{userId, albumName}, new PhotoMapper());
+    }
+
+    // Фотографии в ленте
+    public List<Photo> getIndexPhoto() {
+        return jdbcTemplate.query("SELECT photo.id, photo.file, photo.name, photo.description, photo.album, " +
+                        "photo.tags, photo.userId from photo INNER JOIN albums ON photo.album = albums.name AND NOT(albums.type = 'closed');",
+                new PhotoMapper());
     }
 }

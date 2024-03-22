@@ -14,6 +14,7 @@ public class AlbumMapper implements RowMapper<Album> {
         try{
             album.setId(resultSet.getInt("id"));
             album.setName(resultSet.getString("name"));
+            album.setType(resultSet.getString("type"));
             album.setDescription(resultSet.getString("description"));
             album.setUserId(resultSet.getInt("userId"));
         }

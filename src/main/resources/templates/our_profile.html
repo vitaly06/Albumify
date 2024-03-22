@@ -13,16 +13,21 @@
   </div>
   <div class="nav">
     <div class="nav_btns">
-      <button class="nav_btn1"><h1>Главная</h1></button>
-      <a th:href="@{/addContent}"><button class="nav_btn2"><h1>Создать</h1></button></a>
+      <a th:href="@{/}"><button class="nav_btn1"><h1>Главная</h1></button></a>
+      <a th:href="@{/addContent}" th:if="${auth} == true"><button class="nav_btn2"><h1>Создать</h1></button></a>
+      <a th:href="@{/login}" th:if="${auth} == false"><button class="nav_btn2"><h1>Создать</h1></button></a>
     </div>
     <div class="nav_search">
       <input type="search" placeholder="Поиск">
     </div>
   </div>
-  <div class="user_section">
+  <div class="user_section" th:if="${auth} == true">
     <img src="Images/download.svg" alt="">
-    <img src="Images/profile_user.svg" alt="">
+    <a th:href="@{/profile}"><img src="Images/user.svg" alt=""></a>
+  </div>
+  <div class="user_section" th:if="${auth} == false">
+    <img src="Images/download.svg" alt="">
+    <a th:href="@{/registration}"><img src="Images/user.svg" alt=""></a>
   </div>
 </header>
 

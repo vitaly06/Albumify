@@ -21,8 +21,8 @@ public class AlbumDAO {
     }
 
     public int addAlbum(Album album){
-        return jdbcTemplate.update("INSERT INTO ALBUMS(name, description, userId) VALUES(?, ?, ?)",
-                album.getName(), album.getDescription(), album.getUserId());
+        return jdbcTemplate.update("INSERT INTO ALBUMS(name, description, type, userId) VALUES(?, ?, ?, ?)",
+                album.getName(), album.getDescription(), album.getType(), album.getUserId());
     }
 
     public List<Album> getAllUserAlbums(int userId){

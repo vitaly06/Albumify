@@ -16,9 +16,11 @@
             <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
         <input name="password" type="password" placeholder="Пароль">
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
+            <div th:if="${#fields.hasErrors('global')}">
+                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" style="color: red;"/>
+            </div>
         </div>
         <button type="submit" class="btn_login">Войти</button>
-
         <a th:href="@{/registration}" class="link">Еще нет аккаунта? Зарегистрироваться</a>
     </form>
 </body>
