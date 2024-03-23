@@ -72,4 +72,9 @@ public class PersonDAO {
                 new Object[]{userId}, new PersonMapper())
                 .stream().findAny().orElse(null);
     }
+
+    public int updatePerson(Person person){
+        return jdbcTemplate.update("UPDATE users SET email = ?, fio = ?, nickname = ?, password = ? WHERE id = ?",
+                person.getEmail(), person.getFio(), person.getNickname(), person.getPassword(), person.getId());
+    }
 }
