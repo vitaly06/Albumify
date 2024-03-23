@@ -22,7 +22,6 @@
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;">Name error</div>
         <input type="password" th:field="*{repassword}" name="repassword" id="repassword" placeholder="Повторите пароль">
             <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}" style="color: red;">Name error</div>
-            <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}" style="color: red;">Name error</div>
             <div th:if="${#fields.hasErrors('global')}">
                 <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" style="color: red;"/>
             </div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Styles/change_profile.css">
+    <title>change profile</title>
+</head>
+<body>
+<form>
+    <h1>Albumify</h1>
+    <h2>Изменить личную информацию</h2>
+
+    <div class="input_form">
+        <form th:method="POST" th:action="@{/change-profile/{id}}" th:object="${person}">
+        <input type="email" th:field="*{email}" name="email" id="email" placeholder="Сменить email">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;" >Name error</div>
+        <input type="text" th:field="*{fio}" name="fio" id="fio" placeholder="Сменить ФИО">
+        <div th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}" style="color: red;">Name error</div>
+        <input type="text" th:field="*{nickname}" name="nickname" id="nickname" placeholder="Сменить Никнейм">
+        <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" style="color: red;">Name error</div>
+        <input type="password" th:field="*{password}" name="password" id="password" placeholder="Старый пароль">
+        <input type="password" th:field="*{repassword}" name="repassword" id="repassword" placeholder="Новый пароль">
+        <div th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}" style="color: red;">Name error</div>
+        <div th:if="${#fields.hasErrors('global')}">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" style="color: red;"/>
+        </div>
+        </form>
+    </div>
+    </div>
+    <button class="btn_login">Подтвердить</button>
+
+</form>
+</body>
+</html>

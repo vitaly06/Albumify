@@ -133,83 +133,111 @@ input:focus {outline: none;}
     color: #000;
 }
 
-
-.image-container{
-    width: 90%;
-    margin: 0 auto 30px auto;
+.text_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
-.image-container img{
-    display: block;
-    position: relative;
-    max-width: 100%;
-    max-height: 400px;
-    margin: auto;
-}
-figcaption{
-    margin: 20px 0 30px 0;
+.text{
+    margin-top: 5%;
+    font-family: Airfool;
+    font-weight: 400;
+    font-size: 62px;
     text-align: center;
-    color: #2a292a;
+    color: #15b4ff;
 }
-input[type="file"]{
-    display: none;
-}
-label{
-    display: block;
-    position: relative;
-    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background: linear-gradient(360deg, #95eff6 0%, #66aff2 100%);
-    border: none;
+.subtext{
     font-family: Geometria;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 30px;
     text-align: center;
-    color: #fff;
-
-    text-align: center;
-    width: 300px;
-    padding: 18px 0;
-    border-radius: 5px;
-    margin: auto;
-    cursor: pointer;
+    color: #15b4ff;
 }
 
-.info_container{
+.settings_container{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.set{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.text2{
+    font-family: Airfool;
+    font-weight: 400;
+    font-size: 42px;
+    text-align: center;
+    color: #15b4ff;
+}
+
+
+.gallery {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    column-count: 4;
+    font-family: arial;
+  }
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    margin-top: 5%;
-    gap: 30px;
+  }
+  .gallery-item figure {
+    margin: 0;
+    position: relative;
+  }
+  .gallery-item figcaption {
+    font-style: italic;
+    padding: 8px;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    box-sizing: border-box;
+    bottom: 3px;
+    color: #fff;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 0 0 14px 14px;
+  }
+  .gallery-item img {
+    width: 100%;
+    border-radius: 14px;
+  }
+  .gallery-item p {
+    margin: 0;
+    padding: 8px;
+  }
+
+  input[type=checkbox]{
+    position: absolute;
+    -ms-transform: scale(3); /* IE */
+    -moz-transform: scale(3); /* FF */
+    -webkit-transform: scale(3); /* Safari and Chrome */
+    -o-transform: scale(3); /* Opera */
+    transform: scale(3);
+
+
 }
-.info, select, option{
-    border-radius: 9px;
-    width: 40%;
-    height: 52px;
-
-    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background: #fff;
-    border: solid #aaa;
-
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    color: #707070;
-    font-family: Geometria;
-}
-
-.btn_create{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
-    margin-bottom: 1%;
+.btn_del{
+    margin: 1%;
     cursor: pointer;
 
     border-radius: 12px;
-    width: 222px;
-    height: 47px;
-
+    width: 300px;
+    height: 50px;
 
     box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     background: linear-gradient(360deg, #95eff6 0%, #66aff2 100%);
@@ -228,18 +256,9 @@ label{
     0 2px black;
 }
 
-@media (max-width:500px) {
-    .info, .albums{
-        width: 70%;
-    }
-    .logo_section h1{
-        font-size: 31px;
-    }
-    .nav_btn1{
-        width: 80px;  
-    }
-    .nav_btn1 h1, .nav_btn2 h1{
-        font-size: 16px;
+  @media screen and (max-width: 500px) {
+    .gallery {
+      column-count: 2;
     }
     .logo_section h1{
         font-size: 20px;
@@ -260,4 +279,29 @@ label{
         width: 30px;
         height: 30px;
     }
-}
+    .text{
+        font-size: 40px;
+    }
+    .text2{
+        font-size: 30px;
+    }
+    input[type=checkbox]{
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        transform: scale(2);
+        padding: 10px;
+    }
+
+  }
+  @media screen and (min-width: 501px) and (max-width: 700px) {
+    .gallery {
+      column-count: 2;
+    }
+  }
+  @media screen and (min-width: 701px) and (max-width: 900px) {
+    .gallery {
+      column-count: 3;
+    }
+  }

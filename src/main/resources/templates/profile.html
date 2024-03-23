@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +74,7 @@
         </div>
         <!--  -->
 
-        <a href="./"><button class="btn_profile">Изменить профиль</button></a>
+        <a th:href="@{/change-profile/{id}(id=${id})}"><button class="btn_profile">Изменить профиль</button></a>
     </div>
 
     <div class="text_container">
@@ -87,10 +87,9 @@
         <div class="albums">
         <div th:each="album : ${albums}" class="album">
             <a th:href="@{/album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}">
-            <span style="text-align: center; margin: 0 auto;" th:text="${album.getName()}">album name</span></div>
+            <div><span style="text-align: center; margin: 0 auto;" th:text="${album.getName()}">album name</span></div>
             </a>
         </div>
-
 </main>
 </body>
 </html>

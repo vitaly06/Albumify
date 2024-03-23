@@ -107,6 +107,7 @@ public class MainController {
         model.addAttribute("albums", albums);
         model.addAttribute("nickname", data[3]);
         model.addAttribute("auth", isAuth);
+        model.addAttribute("id", Integer.parseInt(data[0]));
         return "profile";
     }
 
@@ -172,5 +173,37 @@ public class MainController {
         model.addAttribute("author", author.getNickname());
         model.addAttribute("photo", photo);
         return "content";
+    }
+
+    @GetMapping("/change-profile/{id}")
+    public String changeProfile(@PathVariable("id") int id, @ModelAttribute("person") Person person1, Model model){
+        model.addAttribute("person", person1);
+        Person person = personDAO.photoAuthor(person1.getId());
+
+        return "change_profile";
+    }
+
+    @PostMapping("/change-profile/{id}")
+    public String editProfile(@PathVariable("id") int id, @Valid @ModelAttribute("person") Person person, BindingResult bindingResult,
+                              Model model){
+        Person person2 = personDAO.photoAuthor(id);
+        model.addAttribute("person", person2);
+        if (!Objects.equals(person.getPassword(), person2.getPassword())){
+            ObjectError error = new ObjectError("globalError", "Старый пароль неверный");
+            bindingResult.addError(error);
+        }
+        if (!personDAO.checkEmail(person.getEmail())){
+            ObjectError error = new ObjectError("globalError", "Аккаунт с таким email уже существует");
+            bindingResult.addError(error);
+        }
+        if (!personDAO.checkNickname(person.getNickname())){
+            ObjectError error = new ObjectError("globalError", "Аккаунт с таким nickname уже существует");
+            bindingResult.addError(error);
+        }
+
+        if (bindingResult.hasErrors()){
+            return "redirect:/change-profile/{od}";
+        }
+        return "redirect:/profile";
     }
 }
