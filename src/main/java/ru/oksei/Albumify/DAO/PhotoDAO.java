@@ -10,11 +10,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Component
 public class PhotoDAO {
@@ -32,9 +32,9 @@ public class PhotoDAO {
 
     public int savePhoto(Photo photo) throws IOException {
         System.out.println(photo.getFile());
-        return jdbcTemplate.update("INSERT INTO PHOTO(file, name, description, album, tags, userId) VALUES(?, ?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO PHOTO(file, name, description, album, tags, userId, type) VALUES(?, ?, ?, ?, ?, ?, ?)",
                 photo.getFile().getOriginalFilename(), photo.getName(),
-                photo.getDescription(), photo.getAlbum(), photo.getTags(), photo.getUserId());
+                photo.getDescription(), photo.getAlbum(), photo.getTags(), photo.getUserId(), photo.getType());
     }
 
     public List<Photo> getPhotos(int userId, String albumName) throws IOException {
@@ -53,7 +53,7 @@ public class PhotoDAO {
     // Фотографии в ленте
     public List<Photo> getIndexPhoto() {
         return jdbcTemplate.query("SELECT photo.id, photo.file, photo.name, photo.description, photo.album, " +
-                        "photo.tags, photo.userId from photo INNER JOIN albums ON photo.album = albums.name AND NOT(albums.type = 'closed');",
+                        "photo.tags, photo.userId, photo.type from photo INNER JOIN albums ON photo.album = albums.name AND NOT(albums.type = 'closed');",
                 new PhotoMapper());
     }
 
@@ -62,6 +62,29 @@ public class PhotoDAO {
         for (String file : files){
             jdbcTemplate.update("DELETE FROM photo WHERE file = ? AND album = ?",
                     file, albumName);
+        }
+    }
+    public void createZip(String files, String albumname){
+        String[] fileNames = files.split("!");
+
+        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream("./src/main/resources/static/data/" + albumname + ".zip"))) {
+            for (String filename : fileNames) {
+                System.out.println(filename);
+                try (FileInputStream fis = new FileInputStream("./src/main/resources/static/data/" + filename)) {
+                    ZipEntry entry1 = new ZipEntry(filename);
+                    zout.putNextEntry(entry1);
+                    // считываем содержимое файла в массив byte
+                    byte[] buffer = new byte[fis.available()];
+                    fis.read(buffer);
+                    // добавляем содержимое к архиву
+                    zout.write(buffer);
+                    // закрываем текущую запись для новой записи
+                    zout.closeEntry();
+                }
+            }
+        } catch (Exception ex) {
+
+            System.out.println(ex);
         }
     }
 }

@@ -29,10 +29,6 @@
             <img src="Images/download.svg" alt="">
             <a th:href="@{/registration}"><img src="Images/user.svg" alt=""></a>
         </div>
-        <div class="user_section">
-            <img src="/Images/download.svg" alt="">
-            <img src="/Images/user.svg" alt="">
-        </div>
     </header>
 
     <main>
@@ -43,11 +39,11 @@
 
         <div class="settings_container">
             <div class="set">
-                <img src="/Images/download2.svg" alt="скачать весь альбом">
-                <a th:href="@{/edit-album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}"><img src="/Images/settings.svg" alt=""></a>
+                <a th:href="@{/data/{albumname}.zip(albumname=${album.getName()})}" download><img src="/Images/download2.svg" alt="скачать весь альбом"></a>
+                <a th:href="@{/album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}"><img src="/Images/settings.svg" alt=""></a>
             </div>
             <div class="add_photo">
-                <div class="text2">Добавить фото</div>
+                <div class="text2"><a th:href="@{/addContent}">Добавить фото</a></div>
             </div>
         </div>
 
@@ -55,13 +51,24 @@
 
 
         <div class="gallery">
-            <div class="gallery-item" th:each="photo : ${photos}">
+            <a th:each="photo : ${photos}" th:href="@{/content/{userId}-{photoName}(userId=${photo.getUserId()}, photoName=${photo.getName()})}">
+                <div class="gallery-item" th:if="${photo.getType()} == img">
               <figure>
                 <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
                 <figcaption th:text="${photo.getName()}">name</figcaption>
               </figure>
               <p th:text="${photo.getDescription()}">description</p>
             </div>
+                <div class="gallery-item" th:if="${photo.getType()} == video">
+                    <figure>
+                        <video autoplay controls width="70%">
+                            <source th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}">
+                        </video>
+                        <figcaption th:text="${photo.getName()}">name</figcaption>
+                    </figure>
+                    <p th:text="${photo.getDescription()}">description</p>
+                </div>
+            </a>
           </div>
     </main>
 </body>

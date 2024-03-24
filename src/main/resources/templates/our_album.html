@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/Styles/album.css">
+  <title>Альбом</title>
+</head>
+<body>
+<header>
+  <div class="logo_section">
+    <h1>Albumify</h1>
+  </div>
+  <div class="nav">
+    <div class="nav_btns">
+      <a th:href="@{/}"><button class="nav_btn1"><h1>Главная</h1></button></a>
+      <a th:href="@{/addContent}" th:if="${auth} == true"><button class="nav_btn2"><h1>Создать</h1></button></a>
+      <a th:href="@{/login}" th:if="${auth} == false"><button class="nav_btn2"><h1>Создать</h1></button></a>
+    </div>
+    <div class="nav_search">
+      <input type="search" placeholder="Поиск">
+    </div>
+  </div>
+  <div class="user_section" th:if="${auth} == true">
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/profile}"><img src="/Images/user.svg" alt=""></a>
+  </div>
+  <div class="user_section" th:if="${auth} == false">
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/registration}"><img src="/Images/user.svg" alt=""></a>
+  </div>
+</header>
+
+<main>
+  <div class="text_container">
+    <div class="text" th:text="${album.getName()}">Название альбома</div>
+    <div class="subtext" th:text="${album.getDescription()}">описание</div>
+  </div>
+
+  <div class="settings_container">
+    <div class="set">
+      <a th:href="@{/data/{albumname}.zip(albumname=${album.getName()})}" download><img src="/Images/download2.svg" alt="скачать весь альбом"></a>
+    </div>
+    <div class="add_photo">
+      <div class="text2">Автор: <a th:text="${person.getNickname()}" th:href="@{/{nickname}(nickname=${person.getNickname()})}">текст</a></div>
+    </div>
+  </div>
+  <div class="gallery">
+    <a th:each="photo : ${photos}" th:href="@{/content/{userId}-{photoName}(userId=${photo.getUserId()}, photoName=${photo.getName()})}">
+      <div class="gallery-item" th:if="${photo.getType()} == img">
+        <figure>
+          <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
+          <figcaption th:text="${photo.getName()}">name</figcaption>
+        </figure>
+        <p th:text="${photo.getDescription()}">description</p>
+      </div>
+      <div class="gallery-item" th:if="${photo.getType()} == video">
+        <figure>
+          <video autoplay controls width="70%">
+            <source th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}">
+          </video>
+          <figcaption th:text="${photo.getName()}">name</figcaption>
+        </figure>
+        <p th:text="${photo.getDescription()}">description</p>
+      </div>
+    </a>
+  </div>
+</main>
+</body>
+</html>

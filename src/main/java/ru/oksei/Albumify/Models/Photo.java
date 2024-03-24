@@ -11,6 +11,8 @@ public class Photo {
     private String tags;
     private int userId;
 
+    private String type;
+
     public Photo(){}
 
     public int getId() {
@@ -68,5 +70,13 @@ public class Photo {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

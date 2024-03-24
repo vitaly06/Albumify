@@ -22,16 +22,13 @@ public class PhotoMapper implements RowMapper<Photo> {
         String fileName = resultSet.getString("file");
         try {
             File file = new File("./src/main/resources/static/data/" + fileName);
-            if (file.exists()) {
+            /*if (file.exists()) {
                 //System.out.println("File Exist => " + file.getName() + " :: " + file.getAbsolutePath());
-            }
+            }*/
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain",
                     IOUtils.toByteArray(input));
             photo.setFile(multipartFile);
-            //System.out.println("multipartFile => " + multipartFile.isEmpty() + " :: "
-                    //+ multipartFile.getOriginalFilename() + " :: " + multipartFile.getName() + " :: "
-                    //+ multipartFile.getSize() + " :: " + multipartFile.getBytes());
         } catch (IOException e) {
             System.out.println("Exception => " + e.getLocalizedMessage());
         }
@@ -42,6 +39,7 @@ public class PhotoMapper implements RowMapper<Photo> {
             photo.setAlbum(resultSet.getString("album"));
             photo.setTags(resultSet.getString("tags"));
             photo.setUserId(resultSet.getInt("userId"));
+            photo.setType(resultSet.getString("type"));
         }
         catch (Exception e){
             return new Photo();

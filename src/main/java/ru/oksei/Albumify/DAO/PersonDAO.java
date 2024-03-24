@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.oksei.Albumify.Models.Person;
 
+import java.io.File;
 import java.util.Objects;
 
 
@@ -80,5 +81,14 @@ public class PersonDAO {
         }
         return jdbcTemplate.update("UPDATE users SET email = ?, fio = ?, nickname = ? WHERE id = ?",
                 person.getEmail(), person.getFio(), person.getNickname(), person.getId());
+    }
+
+    public String getFileExtension(String fileName) {
+        // если в имени файла есть точка и она не является первым символом в названии файла
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            // то вырезаем все знаки после последней точки в названии файла, то есть ХХХХХ.txt -> txt
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+            // в противном случае возвращаем заглушку, то есть расширение не найдено
+        else return "";
     }
 }

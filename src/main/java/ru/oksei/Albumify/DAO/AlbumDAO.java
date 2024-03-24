@@ -5,7 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.oksei.Albumify.Models.Album;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Component
 public class AlbumDAO {
@@ -56,4 +60,6 @@ public class AlbumDAO {
                 new Object[]{albumName}, new AlbumMapper())
                 .stream().findAny().orElse(null);
     }
+
+
 }

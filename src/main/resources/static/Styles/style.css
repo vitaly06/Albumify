@@ -148,6 +148,10 @@ input:focus {outline: none;}
     width: 100%;
     border-radius: 14px;
   }
+  .gallery-item video {
+      width: 100%;
+      border-radius: 14px;
+    }
   .gallery-item p {
     margin: 0;
     padding: 8px;

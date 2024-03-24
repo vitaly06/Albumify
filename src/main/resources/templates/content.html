@@ -8,14 +8,20 @@
 </head>
 <body>
 <main>
-    <div class="photo">
+    <div class="photo" th:if="${photo.getType()} == img">
         <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" alt="">
+    </div>
+    <div class="photo" th:if="${photo.getType()} == video">
+        <video th:if="${photo.getType()} == 'video'" autoplay controls width="70%">
+            <source th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}">
+        </video >
     </div>
     <div class="info">
         <h1 th:text="${photo.getName()}">Нaзвание</h1>
         <a th:href="@{/{nickname}(nickname=${author})}"><h2 th:text="${author}">Автор</h2></a>
         <h3 th:text="${photo.getDescription()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corrupti doloribus aliquid sed eum. Blanditiis.</h3>
         <h3 th:text="${photo.getTags()}"> Теги Теги Теги Теги Теги Теги Теги</h3>
+        <h3><a th:href="@{/data/{filename}(filename=${photo.getFile().getOriginalFilename()})}" download>Скачать</a></h3>
     </div>
 </main>
 </body>

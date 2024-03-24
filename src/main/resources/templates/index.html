@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,15 +34,28 @@
     <main>
         <div class="gallery">
             <a th:each="photo : ${photos}" th:href="@{/content/{userId}-{photoName}(userId=${photo.getUserId()}, photoName=${photo.getName()})}">
-            <div class="gallery-item">
+            <div class="gallery-item" th:if="${photo.getType()} == img">
               <figure>
-                <img th:src="@{data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
+                <img th:src="@{data/{file}(file=${photo.getFile().getOriginalFilename()})}"/>
                   <figcaption th:text="${photo.getName()}">name</figcaption>
               </figure>
+
                 <p th:text="${photo.getDescription()}">description</p>
             </div>
+                <div class="gallery-item" th:if="${photo.getType()} == video">
+                    <figure>
+                        <video th:if="${photo.getType()} == 'video'" width="250">
+                            <source th:src="@{data/{file}(file=${photo.getFile().getOriginalFilename()})}" type="video/mp4">
+                        </video >
+                        <figcaption th:text="${photo.getName()}">name</figcaption>
+                    </figure>
+                    <p th:text="${photo.getDescription()}">description</p>
+                </div>
+            </a>
+        </div>
             </a>
           </div>
     </main>
 </body>
 </html>
+

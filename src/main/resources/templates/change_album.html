@@ -40,7 +40,7 @@
   </div>
   <div class="gallery">
 
-    <div class="gallery-item" th:each="photo : ${photos}">
+    <div class="gallery-item" th:each="photo : ${photos}" th:if="${photo.getType()} == img">
       <figure>
         <input type="checkbox" class="del_photo" th:value="${photo.getFile().getOriginalFilename()}" name="fileName">
         <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
@@ -48,7 +48,16 @@
       </figure>
       <p th:text="${photo.getDescription()}">description</p>
     </div>
-
+    <div class="gallery-item" th:each="photo : ${photos}" th:if="${photo.getType()} == video">
+      <figure>
+        <input type="checkbox" class="del_photo" th:value="${photo.getFile().getOriginalFilename()}" name="fileName">
+        <video autoplay controls width="70%">
+          <source th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}">
+        </video>
+        <figcaption th:text="${photo.getName()}">name</figcaption>
+      </figure>
+      <p th:text="${photo.getDescription()}">description</p>
+    </div>
   </div>
   </form>
 </main>

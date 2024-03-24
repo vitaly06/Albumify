@@ -22,18 +22,18 @@
     </div>
   </div>
   <div class="user_section" th:if="${auth} == true">
-    <img src="Images/download.svg" alt="">
-    <a th:href="@{/profile}"><img src="Images/user.svg" alt=""></a>
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/profile}"><img src="/Images/user.svg" alt=""></a>
   </div>
   <div class="user_section" th:if="${auth} == false">
-    <img src="Images/download.svg" alt="">
-    <a th:href="@{/registration}"><img src="Images/user.svg" alt=""></a>
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/registration}"><img src="/Images/user.svg" alt=""></a>
   </div>
 </header>
 
 <main>
   <div class="person_information">
-    <img src="Images/logo_user.jpg" alt="" width="150px" height="150px">
+    <img src="/Images/logo_user.jpg" alt="" width="150px" height="150px">
     <h1 th:text="${nickname}">Никнейм</h1>
   </div>
 
@@ -43,7 +43,7 @@
   </div>
   <div class="albums">
     <div th:each="album : ${albums}" class="album">
-      <a th:href="@{/album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}">
+      <a th:href="@{/our-album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}">
         <div><span style="text-align: center; margin: 0 auto;" th:text="${album.getName()}">album name</span></div>
       </a>
     </div>

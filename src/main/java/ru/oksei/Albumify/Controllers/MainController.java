@@ -37,13 +37,15 @@ public class MainController {
     PhotoDAO photoDAO;
     String[] data;
     boolean isAuth = false;
-    public Person person; // Данные пользователя
+
+    String imgs = "png jpg";
+    String videos = "mp4 webm";
 
     @GetMapping("/")
     public String index(Model model) {
         List<Photo> photos = photoDAO.getIndexPhoto();
-        for (Photo photo : photos){
-            System.out.println(photo.getFile().getOriginalFilename());
+        for(Photo photo : photos){
+            System.out.println(photo.getType());
         }
         model.addAttribute("photos", photos);
         model.addAttribute("auth", isAuth);
@@ -201,8 +203,28 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String type = personDAO.getFileExtension(fileName);
+        if (videos.contains(type)){
+            photo.setType("video");
+        }
+        else if(imgs.contains(type)){
+            photo.setType("img");
+        }
         photoDAO.savePhoto(photo);
+        List<Photo> photos = photoDAO.getPhotos(Integer.parseInt(data[0]), photo.getAlbum());
+        StringBuilder sb = new StringBuilder();
+        for (Photo photo1 : photos){
+            sb.append(photo1.getFile().getOriginalFilename() + "!");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        photoDAO.createZip(sb.toString(), photo.getAlbum());
+
         return "redirect:/addContent";
+    }
+
+    @GetMapping("/editor")
+    public String editor(){
+        return "editor";
     }
 
     // Создание альбома
@@ -226,6 +248,19 @@ public class MainController {
         model.addAttribute("photos", photos);
         model.addAttribute("auth", isAuth);
         return "album";
+    }
+
+    @GetMapping("/our-album/{userId}-{albumname}")
+    public String viewOurAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumname,
+                            Model model) throws IOException {
+        Person person = personDAO.photoAuthor(userId);
+        List<Photo> photos = photoDAO.getPhotos(userId, albumname);
+        Album album = albumDAO.getAlbum(albumname);
+        model.addAttribute("album", album);
+        model.addAttribute("photos", photos);
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("person", person);
+        return "our_album";
     }
 
     // Просмотр изображения
