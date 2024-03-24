@@ -30,6 +30,27 @@ public class AlbumDAO {
                 new Object[]{userId}, new AlbumMapper());
     }
 
+    // Все альбомы чужого профиля
+    public List<Album> getAllOurProfileAlbums(int userId){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ? AND NOT(type = 'closed')",
+                new Object[]{userId}, new AlbumMapper());
+    }
+
+    public List<Album> getAllUserClosedAlbums(int userId){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ? AND type = 'closed'",
+                new Object[]{userId}, new AlbumMapper());
+    }
+
+    public List<Album> getAllUserGroupeAlbums(int userId){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ? AND type = 'groupe'",
+                new Object[]{userId}, new AlbumMapper());
+    }
+
+    public List<Album> getAllUserPersonalAlbums(int userId){
+        return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE userId = ? AND type = 'personal'",
+                new Object[]{userId}, new AlbumMapper());
+    }
+
     public Album getAlbum(String albumName){
         return jdbcTemplate.query("SELECT * FROM ALBUMS WHERE name = ?",
                 new Object[]{albumName}, new AlbumMapper())

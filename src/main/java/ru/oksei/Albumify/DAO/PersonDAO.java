@@ -74,7 +74,11 @@ public class PersonDAO {
     }
 
     public int updatePerson(Person person){
-        return jdbcTemplate.update("UPDATE users SET email = ?, fio = ?, nickname = ?, password = ? WHERE id = ?",
-                person.getEmail(), person.getFio(), person.getNickname(), person.getPassword(), person.getId());
+        if (person.getRepassword() != "-") {
+            return jdbcTemplate.update("UPDATE users SET email = ?, fio = ?, nickname = ?, password = ? WHERE id = ?",
+                    person.getEmail(), person.getFio(), person.getNickname(), person.getRepassword(), person.getId());
+        }
+        return jdbcTemplate.update("UPDATE users SET email = ?, fio = ?, nickname = ? WHERE id = ?",
+                person.getEmail(), person.getFio(), person.getNickname(), person.getId());
     }
 }

@@ -13,6 +13,7 @@ import ru.oksei.Albumify.DAO.AlbumDAO;
 import ru.oksei.Albumify.DAO.PersonDAO;
 import ru.oksei.Albumify.DAO.PhotoDAO;
 import ru.oksei.Albumify.Models.Album;
+import ru.oksei.Albumify.Models.DeletePhoto;
 import ru.oksei.Albumify.Models.Person;
 import ru.oksei.Albumify.Models.Photo;
 
@@ -41,6 +42,9 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model) {
         List<Photo> photos = photoDAO.getIndexPhoto();
+        for (Photo photo : photos){
+            System.out.println(photo.getFile().getOriginalFilename());
+        }
         model.addAttribute("photos", photos);
         model.addAttribute("auth", isAuth);
         return "index";
@@ -111,11 +115,68 @@ public class MainController {
         return "profile";
     }
 
+    // Закрытые альбомы в профиле
+    @GetMapping("/profile-closed")
+    public String closedAlbumsProfile(Model model){
+        List<Album> albums = albumDAO.getAllUserClosedAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("albums", albums);
+        model.addAttribute("nickname", data[3]);
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("id", Integer.parseInt(data[0]));
+        return "profile";
+    }
+
+    // Групповые альбомы в профиле
+    @GetMapping("/profile-groupe")
+    public String groupeAlbumsProfile(Model model){
+        List<Album> albums = albumDAO.getAllUserGroupeAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("albums", albums);
+        model.addAttribute("nickname", data[3]);
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("id", Integer.parseInt(data[0]));
+        return "profile";
+    }
+
+    // Личные альбомы в профиле
+    @GetMapping("/profile-personal")
+    public String personalAlbumsProfile(Model model){
+        List<Album> albums = albumDAO.getAllUserPersonalAlbums(Integer.parseInt(data[0]));
+        model.addAttribute("albums", albums);
+        model.addAttribute("nickname", data[3]);
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("id", Integer.parseInt(data[0]));
+        return "profile";
+    }
+
+
     // Профили других людей
     @GetMapping("/{nickname}")
     public String ourProfile(@PathVariable("nickname") String nickname, Model model) {
-        model.addAttribute("person", personDAO.ourProfile(nickname));
+        Person person = personDAO.ourProfile(nickname);
+        List<Album> albums = albumDAO.getAllOurProfileAlbums(person.getId());
+        model.addAttribute("person");
         model.addAttribute("auth", isAuth);
+        model.addAttribute("albums", albums);
+        return "our_profile";
+    }
+
+    @GetMapping("/{nickname}-groupe")
+    public String ourProfileGroupe(@PathVariable("nickname") String nickname, Model model) {
+        Person person = personDAO.ourProfile(nickname);
+        List<Album> albums = albumDAO.getAllUserGroupeAlbums(person.getId());
+        model.addAttribute("person");
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("albums", albums);
+        return "our_profile";
+    }
+
+    @GetMapping("/{nickname}-personal")
+    public String ourProfilePersonal(@PathVariable("nickname") String nickname, Model model) {
+        Person person = personDAO.ourProfile(nickname);
+        List<Album> albums = albumDAO.getAllUserPersonalAlbums(person.getId());
+        model.addAttribute("person");
+        model.addAttribute("auth", isAuth);
+        model.addAttribute("albums", albums);
         return "our_profile";
     }
 
@@ -156,6 +217,9 @@ public class MainController {
     @GetMapping("/album/{userId}-{albumname}")
     public String viewAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumname,
                             Model model) throws IOException {
+        if (!Objects.equals(userId, Integer.parseInt(data[0]))){
+            return "redirect:/";
+        }
         List<Photo> photos = photoDAO.getPhotos(userId, albumname);
         Album album = albumDAO.getAlbum(albumname);
         model.addAttribute("album", album);
@@ -177,33 +241,69 @@ public class MainController {
 
     @GetMapping("/change-profile/{id}")
     public String changeProfile(@PathVariable("id") int id, Model model){
+        if (!isAuth){
+            return "redirect:/login";
+        }
+        if (Integer.parseInt(data[0]) != id){
+            return "redirect:/";
+        }
         Person person = personDAO.photoAuthor(id);
         model.addAttribute("person", person);
         model.addAttribute("id", id);
         return "change_profile";
     }
 
-    @PostMapping("/change-profile")
-    public String editProfile(@PathVariable("id") int id, @Valid @ModelAttribute("person") Person person, BindingResult bindingResult){
-        Person person2 = personDAO.photoAuthor(id);
-        if (!Objects.equals(person.getPassword(), person2.getPassword())){
-            ObjectError error = new ObjectError("globalError", "Старый пароль неверный");
-            bindingResult.addError(error);
+    @PostMapping("/change-profile/{id}")
+    public String editProfile(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult){
+        Person person2 = personDAO.photoAuthor(person.getId()); // старые данные аккаунта
+
+        if (Objects.equals(person.getPassword(), "")){
+            person.setPassword("-");
         }
-        if (!personDAO.checkEmail(person.getEmail())){
+        else{
+            if (!Objects.equals(person.getPassword(), person2.getPassword())){
+                System.out.println(1);
+                ObjectError error = new ObjectError("globalError", "Старый пароль неверный");
+                bindingResult.addError(error);
+            }
+        }
+        if (Objects.equals(person.getRepassword(), "")){
+            person.setRepassword("-");
+        }
+        System.out.println(person.getPassword() + " " + person.getRepassword());
+        if (!personDAO.checkEmail(person.getEmail()) && !Objects.equals(person.getEmail(), person2.getEmail())){
+            System.out.println(2);
             ObjectError error = new ObjectError("globalError", "Аккаунт с таким email уже существует");
             bindingResult.addError(error);
         }
-        if (!personDAO.checkNickname(person.getNickname())){
+        if (!personDAO.checkNickname(person.getNickname()) && !Objects.equals(person.getNickname(), person2.getNickname())){
             ObjectError error = new ObjectError("globalError", "Аккаунт с таким nickname уже существует");
             bindingResult.addError(error);
         }
         if (bindingResult.hasErrors()){
-            System.out.println(person.getEmail());
             return "redirect:/change-profile/{id}";
         }
-        System.out.println(1);
-        personDAO.updatePerson(person);
+        personDAO.updatePerson(person); // обновляем данные в таблице
+        data = new String[]{Integer.toString(person.getId()), person.getEmail(), person.getFio(),
+                person.getNickname(), person.getPassword()}; // записываем новые данные в переменную
         return "redirect:/profile";
+    }
+
+    // Изменение альбома
+    @GetMapping("/edit-album/{userId}-{albumname}")
+    public String editAlbum(@PathVariable("userId") int userId, @PathVariable("albumname") String albumName, Model model) throws IOException {
+        List<Photo> photos = photoDAO.getPhotos(userId, albumName);
+        Album album = albumDAO.getAlbum(albumName);
+        model.addAttribute("album", album);
+        model.addAttribute("photos", photos);
+        model.addAttribute("auth", isAuth);
+        return "change_album";
+    }
+
+    @PostMapping("/edit-album/{userId}-{albumname}")
+    public String editAlbumPost(@ModelAttribute("deletePhoto") DeletePhoto deletePhoto, @PathVariable("albumname") String albumName){
+        deletePhoto.setAlbumName(albumName);
+        photoDAO.deletePhotos(deletePhoto.getFileName(), deletePhoto.getAlbumName());
+        return "redirect:/";
     }
 }

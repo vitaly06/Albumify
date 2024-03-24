@@ -52,6 +52,7 @@
                 <option th:each="album : ${albums}"><span th:text="${album.getName()}" value="${album.getName()}"></span></option>
               </select>
             <input name="tags" class="info" type="text" placeholder="Добавить тег">
+            <a href="@{/redactor}"><button class="btn_create">Перейти в редактор</button></a>
             <button class="btn_create">Добавить</button>
         </div>
         </form>

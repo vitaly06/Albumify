@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./Styles/change_album.css">
+  <link rel="stylesheet" href="/Styles/change_album.css">
   <title>change album</title>
 </head>
 <body>
@@ -13,140 +13,44 @@
   </div>
   <div class="nav">
     <div class="nav_btns">
-      <button class="nav_btn1"><h1>Главная</h1></button>
-      <button class="nav_btn2"><h1>Поделиться</h1></button>
+      <a th:href="@{/}"><button class="nav_btn1"><h1>Главная</h1></button></a>
+      <a th:href="@{/addContent}" th:if="${auth} == true"><button class="nav_btn2"><h1>Создать</h1></button></a>
+      <a th:href="@{/login}" th:if="${auth} == false"><button class="nav_btn2"><h1>Создать</h1></button></a>
     </div>
     <div class="nav_search">
       <input type="search" placeholder="Поиск">
     </div>
   </div>
-  <div class="user_section">
-    <img src="./Images/download.svg" alt="">
-    <img src="./Images/user.svg" alt="">
+  <div class="user_section" th:if="${auth} == true">
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/profile}"><img src="Images/user.svg" alt=""></a>
+  </div>
+  <div class="user_section" th:if="${auth} == false">
+    <img src="/Images/download.svg" alt="">
+    <a th:href="@{/registration}"><img src="Images/user.svg" alt=""></a>
   </div>
 </header>
 
 <main>
+  <form th:method="POST" th:actoin="@{/edit-album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}" th:object="${deletePhoto}">
   <div class="text_container">
-    <div class="text">Название альбома</div>
-    <div class="subtext">описание</div>
+    <div class="text" th:text="${album.getName()}">Название альбома</div>
+    <div class="subtext" th:text="${album.getDescription()}">описание</div>
     <button class="btn_del">Удалить выбранные фото</button>
   </div>
-
   <div class="gallery">
-    <div class="gallery-item">
+
+    <div class="gallery-item" th:each="photo : ${photos}">
       <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/hound-english/n02089973_3147.jpg" alt="dog" />
-        <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
+        <input type="checkbox" class="del_photo" th:value="${photo.getFile().getOriginalFilename()}" name="fileName">
+        <img th:src="@{/data/{file}(file=${photo.getFile().getOriginalFilename()})}" />
+        <figcaption th:text="${photo.getName()}">name</figcaption>
       </figure>
-      <p>OMG, seriously how cute are these dogs?</p>
+      <p th:text="${photo.getDescription()}">description</p>
     </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/poodle-toy/n02113624_1582.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/pug/n02110958_13794.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/terrier-australian/n02096294_5504.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/kelpie/n02105412_1222.jpg" alt="dog" />
-        <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
-      </figure>
-      <p>OMG, seriously how cute are these dogs?</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/doberman/n02107142_1193.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_5292.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_5292.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/borzoi/n02090622_266.jpg" alt="dog" />
-        <figcaption>Picture of a few dogs having a rest and sleeping.</figcaption>
-      </figure>
-      <p>OMG, seriously how cute are these dogs?</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/newfoundland/n02111277_11806.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/poodle-miniature/n02113712_3293.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/pembroke/n02113023_4881.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/poodle-standard/n02113799_4946.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
-    <div class="gallery-item">
-      <figure>
-        <input type="checkbox" class="del_photo">
-        <img src="https://images.dog.ceo/breeds/schnauzer-giant/n02097130_4050.jpg" alt="dog" />
-        <figcaption>Caption of the pic</figcaption>
-      </figure>
-      <p>More text about the image</p>
-    </div>
+
   </div>
+  </form>
 </main>
 </body>
 </html>

@@ -38,13 +38,15 @@
   </div>
 
   <div class="text_container">
-    <div class="text">Общие альбомы</div>
-    <div class="text">Личные альбомы</div>
+    <a th:href="@{/{nickname}-groupe(nickname=${nickname})}"><div class="text">Общие альбомы</div></a>
+    <a th:href="@{/{nickname}-personal(nickname=${nickname})}"><div class="text">Личные альбомы</div></a>
   </div>
   <div class="albums">
-    <div class="album"></div>
-    <div class="album"></div>
-  </div>
+    <div th:each="album : ${albums}" class="album">
+      <a th:href="@{/album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}">
+        <div><span style="text-align: center; margin: 0 auto;" th:text="${album.getName()}">album name</span></div>
+      </a>
+    </div>
 </main>
 </body>
 </html>

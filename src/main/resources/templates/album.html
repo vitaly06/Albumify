@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="htttp://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +44,7 @@
         <div class="settings_container">
             <div class="set">
                 <img src="/Images/download2.svg" alt="скачать весь альбом">
-                <img src="/Images/settings.svg" alt="">
+                <a th:href="@{/edit-album/{userId}-{albumname}(userId=${album.getUserId()}, albumname=${album.getName()})}"><img src="/Images/settings.svg" alt=""></a>
             </div>
             <div class="add_photo">
                 <div class="text2">Добавить фото</div>

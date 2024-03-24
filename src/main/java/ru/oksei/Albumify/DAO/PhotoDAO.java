@@ -56,4 +56,12 @@ public class PhotoDAO {
                         "photo.tags, photo.userId from photo INNER JOIN albums ON photo.album = albums.name AND NOT(albums.type = 'closed');",
                 new PhotoMapper());
     }
+
+    public void deletePhotos(String fileNames, String albumName){
+        String[] files = fileNames.split(",");
+        for (String file : files){
+            jdbcTemplate.update("DELETE FROM photo WHERE file = ? AND album = ?",
+                    file, albumName);
+        }
+    }
 }

@@ -197,7 +197,13 @@ label{
     color: #707070;
     font-family: Geometria;
 }
-
+.btn_container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
 .btn_create{
     display: flex;
     align-items: center;
@@ -229,14 +235,11 @@ label{
 }
 
 @media (max-width:500px) {
-    .info, .albums{
-        width: 70%;
-    }
     .logo_section h1{
         font-size: 31px;
     }
     .nav_btn1{
-        width: 80px;  
+        width: 80px;
     }
     .nav_btn1 h1, .nav_btn2 h1{
         font-size: 16px;
@@ -259,5 +262,9 @@ label{
     .user_section img{
         width: 30px;
         height: 30px;
+    }
+
+    .info, .albums{
+        width: 70%;
     }
 }
